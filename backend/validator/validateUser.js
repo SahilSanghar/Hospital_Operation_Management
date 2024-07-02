@@ -44,6 +44,15 @@ export const validateUser = (data, isNewUser = true) => {
         errors.role = "Role must be either 'Patient', 'Doctor', or 'Admin'.";
     }
 
+    if (data.role === 'Doctor') {
+        if (!data.doctorDepartment || typeof data.doctorDepartment !== 'string') {
+            errors.doctorDepartment = 'Doctor Department is required for Doctors and must be a string.';
+        }
+        if (!data.docAvatar || !data.docAvatar.public_id || !data.docAvatar.url) {
+            errors.docAvatar = 'Doctor Avatar is required for Doctors and must contain public_id and url.';
+        }
+    }
+
     return {
         isValid: Object.keys(errors).length === 0,
         errors,

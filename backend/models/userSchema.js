@@ -61,6 +61,25 @@ class User {
         return null;
     }
 
+    static async findById(id) {
+        const userRef = db.collection('users').doc(id);
+        const doc = await userRef.get();
+        if (doc.exists) {
+            return { id: doc.id, ...doc.data() };
+        }
+        return null;
+    }
+
+    static async findByRole(role) {
+        const userRef = db.collection('users');
+        const querySnapshot = await userRef.where('role', '==', role).get();
+        const users = [];
+        querySnapshot.forEach((doc) => {
+            users.push({ id: doc.id, ...doc.data() });
+        });
+        return users;
+    }
+
     static async getAll() {
         try {
             const snapshot = await db.collection('users').get();

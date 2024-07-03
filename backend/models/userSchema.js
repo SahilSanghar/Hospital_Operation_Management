@@ -92,6 +92,33 @@ class User {
             throw new Error('Error getting users: ' + error.message);
         }
     }
+
+    static async find(query) {
+        try {
+            let userRef = db.collection('users');
+            if (query.firstName) {
+                userRef = userRef.where('firstName', '==', query.firstName);
+            }
+            if (query.lastName) {
+                userRef = userRef.where('lastName', '==', query.lastName);
+            }
+            if (query.role) {
+                userRef = userRef.where('role', '==', query.role);
+            }
+            if (query.doctorDepartment) {
+                userRef = userRef.where('doctorDepartment', '==', query.doctorDepartment);
+            }
+
+            const snapshot = await userRef.get();
+            const users = [];
+            snapshot.forEach((doc) => {
+                users.push({ id: doc.id, ...doc.data() });
+            });
+            return users;
+        } catch (error) {
+            throw new Error('Error finding users: ' + error.message);
+        }
+    }
 }
 
 export default User;

@@ -5,6 +5,7 @@ import { validateUser } from "../validator/ValidateUser.js";
 import { db } from "../database/firebase.js";
 import bcrypt from 'bcrypt';
 import { generateToken } from '../utils/jwtToken.js'
+import cloudinary from 'cloudinary';
 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 
@@ -116,11 +117,15 @@ export const addNewAdmin = catchAsyncErrors(async(req, res, next) => {
 });
 
 export const getAllDoctors = catchAsyncErrors(async(req, res, next) => {
-    const doctors = await User.findByRole({ role: "Doctor" });
-    res.status(200).json({
-        success: true,
-        doctors,
-    })
+    try {
+        const doctors = await User.findByRole('Doctor');
+        res.status(200).json({
+            success: true,
+            doctors,
+        });
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500));
+    }
 })
 
 export const getUserDetails = catchAsyncErrors(async(req, res, next) => {
@@ -162,7 +167,7 @@ export const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
         return next(new ErrorHandler("Doctor Avatar Required!", 400));
     }
     const { docAvatar } = req.files;
-    const allowedFormats = ["/image/png", "/image/jpeg", "/image/webp"];
+    const allowedFormats = ["image/png", "image/jpeg", "image/webp"];
     if(!allowedFormats.includes(docAvatar.mimetype)){
         return next(new ErrorHandler("File Format not Supported!", 400));
     }
@@ -220,6 +225,7 @@ export const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
             gender,
             password,
             role: "Doctor",
+            doctorDepartment,
             docAvatar: {
                 public_id: cloudinaryResponse.public_id,
                 url: cloudinaryResponse.secure_url,

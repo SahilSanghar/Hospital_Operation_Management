@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 import messageRouter from "./router/messageRouter.js";
 import userRouter from "./router/userRouter.js";
+import appointmentRouter from "./router/appointmentRouter.js";
 import errorMiddleware from "./middlewares/error.js";
 
 const app = express();
@@ -45,6 +46,7 @@ app.use((req, res, next) => {
 
 app.use("/api/v1/message", messageRouter);
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/appointment", appointmentRouter);
 
 app.use(errorMiddleware)
 

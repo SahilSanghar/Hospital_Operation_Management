@@ -118,6 +118,7 @@ await Appointment.update(id, req.body);
     res.status(200).json({
         success: true,
         message: "Appointment Status Updated!",
+        appointment,
     });
     } catch (error) {
         return next(new ErrorHandler(error.message, 500));

@@ -88,11 +88,11 @@ class Appointment {
     }
 
     static async update(id, data) {
-        const { isValid, errors } = validateAppointment(data);
+        // const { isValid, errors } = validateAppointment(data);
 
-        if (!isValid) {
-            throw new Error(JSON.stringify(errors));
-        }
+        // if (!isValid) {
+        //     throw new Error(JSON.stringify(errors));
+        // }
 
         try {
             await db.collection("appointments").doc(id).update(data);

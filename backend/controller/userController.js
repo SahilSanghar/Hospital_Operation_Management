@@ -1,6 +1,6 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import User from "../models/userSchema.js"; 
-import ErrorHandler, { errorMiddleware } from "../middlewares/error.js";
+import ErrorHandler from "../middlewares/error.js";
 import { validateUser } from "../validator/ValidateUser.js";
 import { db } from "../database/firebase.js";
 import bcrypt from 'bcrypt';
@@ -10,6 +10,19 @@ import cloudinary from 'cloudinary';
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 
     const { firstName, lastName, email, phone, nic, dob, gender, password, role } = req.body;
+    
+    if (
+        !firstName ||
+        !lastName ||
+        !email ||
+        !phone ||
+        !nic ||
+        !dob ||
+        !gender ||
+        !password
+    ) {
+        return next(new ErrorHandler("Please Fill Full Form!", 400));
+    }
     
     const { isValid, errors } = validateUser(req.body);
     if (!isValid) {
@@ -180,7 +193,6 @@ export const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
             dob,
             gender,
             password,
-            role,
             doctorDepartment
         } = req.body;
 
@@ -193,7 +205,6 @@ export const addNewDoctor = catchAsyncErrors(async(req, res, next) => {
         !dob ||
         !gender ||
         !password ||
-        !role ||
         !doctorDepartment)
     ) {
         return next(new ErrorHandler("Please Provide Full Details!", 400));

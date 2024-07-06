@@ -1,6 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { Context } from '../main'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Login = () => {
     const { isAuthenticated, setIsAuthenticated } = useContext(Context);
@@ -13,11 +15,44 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        try {
+            const response = await axios.post(
+                "http://localhost:4000/api/v1/user/login",
+                { email, password, confirmPassword, role: "Patient" },
+                {
+                    withCredentials: true,
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+            toast.success(response.data.message);
+            setIsAuthenticated(true)
+        } catch (error) {
+            // Extract main error message
+            const errorMessage = extractErrorMessage(error.response.data);
+
+            toast.error(errorMessage);
+        }
     }
 
-    if(!isAuthenticated) {
+    if(isAuthenticated) {
         return <Navigate to={"/"} />
     }
+
+    // Function to extract main error message from HTML error response
+    const extractErrorMessage = (errorHtml) => {
+        const startTag = 'Error: ';
+        const endTag = '<br>';
+
+        const startIndex = errorHtml.indexOf(startTag);
+        const endIndex = errorHtml.indexOf(endTag, startIndex);
+
+        if (startIndex !== -1 && endIndex !== -1) {
+            return errorHtml.substring(startIndex + startTag.length, endIndex).trim();
+        } else {
+            return 'Unknown error occurred';
+        }
+    };
+
 return (
     <div className='container form-component login-form'>
         <h2>Sign In</h2>

@@ -3,10 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Context } from '../main';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { GiHamburgerMenu } from "react-icons/gi";
 
 const Navbar = () => {
     const [show, setShow] = useState(false);
-    const { isAuthenticated } = useContext(Context);
+    const { isAuthenticated, setIsAuthenticated } = useContext(Context);
 
     const navigateTo = useNavigate();
 
@@ -16,6 +17,7 @@ const Navbar = () => {
                     withCredentials: true,
                 }).then((res) => {
                     toast.success(res.data.message);
+                    setIsAuthenticated(false);
                 }).catch((error) => {
                     // Extract main error message
                     const errorMessage = extractErrorMessage(error.response.data);
@@ -61,6 +63,9 @@ return (
                     Login
                 </button>
             )}
+        </div>
+        <div className="hamburger" onClick={() => setShow(!show)}>
+            <GiHamburgerMenu />
         </div>
     </nav>
 )

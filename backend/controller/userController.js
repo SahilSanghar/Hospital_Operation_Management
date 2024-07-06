@@ -1,7 +1,7 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
 import User from "../models/userSchema.js"; 
 import ErrorHandler from "../middlewares/error.js";
-import { validateUser } from "../validator/ValidateUser.js";
+import { validateUser } from "../validator/validateUser.js";
 import { db } from "../database/firebase.js";
 import bcrypt from 'bcrypt';
 import { generateToken } from '../utils/jwtToken.js'

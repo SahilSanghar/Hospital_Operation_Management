@@ -9,6 +9,7 @@ The Hospital Operation Management System is designed to optimize and streamline 
 - Additional Tools: Material UI
 
 **System Modules**
+
 **1) Admin Module**
 
 - Functionality: User Authentication: Secure login and role-based access control.

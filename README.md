@@ -26,6 +26,7 @@ The Hospital Operation Management System is designed to optimize and streamline 
 - Surgical Information: Viewing detailed surgical information and reports.
 
 **Code Structure and Modularity**
+
 The project adheres to best practices for:
 
 - Safety: Implements secure authentication and data encryption.
@@ -34,6 +35,7 @@ The project adheres to best practices for:
 - Portability: Cross-platform compatibility ensured through standard web technologies.
 
 **Deployment**
+
 The application is deployed using:
                                    1) Vercel For Frontend
                                    2) Render For Backend

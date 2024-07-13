@@ -72,11 +72,11 @@ return (
             </div>
             <div>
                 <MdEmail />
-                <span>zeelab@gmail.com</span>
+                <span>zeecare@gmail.com</span>
             </div>
             <div>
                 <FaLocationArrow />
-                <span>Karachi, Pakistan</span>
+                <span>Ahmedabad, Gujarat</span>
             </div>
         </div>
         </div>
